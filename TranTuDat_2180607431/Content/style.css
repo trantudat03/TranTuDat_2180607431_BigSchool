@@ -1,0 +1,29 @@
+﻿body {
+
+    
+}
+
+.course {
+    list-style: none;
+    margin-top: 20px;
+}
+
+    .course  li {
+        position: relative;
+        margin-bottom: 30px;
+        display: flex;
+    }
+
+        .course  li .date {
+            text-align: center;
+            background-color: #d41d50;
+            color: #fff;
+            width: 60px;
+            border-radius: 8px;
+        }
+
+        .course li .details {
+            
+            top: 0;
+            left: 7px;
+        }
