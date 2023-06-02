@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 
+
 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
 {
     @Html.AntiForgeryToken()
@@ -7,7 +8,7 @@
     <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
- aria-expanded="false"> @User.Identity.Name <span class="caret"></span></a> 
+               aria-expanded="false"> @User.Identity.GetUserId()  <span class="caret"></span></a>
             <ul class="dropdown-menu">
                 <li><a href="#">Course I'm Going</a></li>
                 <li><a href="#">Lecture I'm flowing</a></li>
@@ -15,7 +16,7 @@
                 <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
             </ul>
         </li>
-        
+
     </ul>
 
 }

@@ -7,13 +7,13 @@ namespace TranTuDat_2180607431.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class CreateTableCourse : IMigrationMetadata
+    public sealed partial class PopulateCategoryTable : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(CreateTableCourse));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(PopulateCategoryTable));
         
         string IMigrationMetadata.Id
         {
-            get { return "202305241611217_CreateTableCourse"; }
+            get { return "202306020232287_PopulateCategoryTable"; }
         }
         
         string IMigrationMetadata.Source

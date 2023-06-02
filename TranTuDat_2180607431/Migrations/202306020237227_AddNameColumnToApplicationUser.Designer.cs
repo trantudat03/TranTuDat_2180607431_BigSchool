@@ -7,13 +7,13 @@ namespace TranTuDat_2180607431.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class KhoitaocacbangcuaIndenticy : IMigrationMetadata
+    public sealed partial class AddNameColumnToApplicationUser : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(KhoitaocacbangcuaIndenticy));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddNameColumnToApplicationUser));
         
         string IMigrationMetadata.Id
         {
-            get { return "202305241547400_Khoi tao cac bang cua Indenticy"; }
+            get { return "202306020237227_AddNameColumnToApplicationUser"; }
         }
         
         string IMigrationMetadata.Source
