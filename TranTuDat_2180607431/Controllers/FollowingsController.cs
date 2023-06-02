@@ -10,31 +10,31 @@ using TranTuDat_2180607431.Models;
 
 namespace TranTuDat_2180607431.Controllers
 {
-    [Authorize]
-    public class AttendancesController : ApiController
+    public class FollowingsController : ApiController
     {
-        private ApplicationDbContext _dbContext;
-
-        public AttendancesController()
+        private readonly ApplicationDbContext _dbContext;
+        public FollowingsController()
         {
             _dbContext = new ApplicationDbContext();
         }
+
         [HttpPost]
 
-        public IHttpActionResult Attend(AttendanceDto attendanceDto)
+        public IHttpActionResult Attend(FollowingDto followingDto)
         {
 
             var userId = User.Identity.GetUserId();
-            if (_dbContext.Attendances.Any(a => a.AttendeeId == userId && a.CourseId == attendanceDto.CourseId)) { 
+            if (_dbContext.Followings.Any(f => f.FollowerId == userId && f.FolloweeId == followingDto.FolloweeId))
+            {
                 return BadRequest("The Attendance already exists!");
             }
-                
-            var attendance = new Attendance
+
+            var folowing = new Following
             {
-                CourseId = attendanceDto.CourseId,
-                AttendeeId = userId
+                FollowerId = userId,
+                FolloweeId = followingDto.FolloweeId
             };
-            _dbContext.Attendances.Add(attendance);
+            _dbContext.Followings.Add(folowing);
             _dbContext.SaveChanges();
 
             return Ok();
