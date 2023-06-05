@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -73,6 +74,61 @@ namespace TranTuDat_2180607431.Controllers
                 UpcommingCourses = courses,
                 ShowAction = User.Identity.IsAuthenticated,
             };
+            return View(viewModel);
+        }
+
+        [Authorize]
+
+        public ActionResult Following()
+        {
+            var userId = User.Identity.GetUserId();
+
+            var followees = _dbContext.Followings
+                    .Where(l => l.FollowerId == userId)
+                    //.Select(l => l.Followee)
+                    //.Select(l => l.Followers)
+                    .Include(l => l.Followee)
+                    .Include(l => l.Follower)
+                    .ToList();
+            /*
+            var viewModel = new FolloweeViewModel
+            {
+                followingsItem = (IEnumerable<Following>)followees,
+                ShowAction = User.Identity.IsAuthenticated,
+            };
+            */
+
+            return View(followees);
+        }
+
+        public ActionResult Mine()
+        {
+            var userId = User.Identity.GetUserId();
+
+            var viewModel = _dbContext.Courses
+                .Where(c => c.LecturerId == userId && c.DateTime > DateTime.Now)
+                .Include(l => l.Lecturer)
+                .Include(l => l.Category)
+                .ToList();
+
+            return View(viewModel);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var userId = User.Identity.GetUserId();
+
+            var course = _dbContext.Courses.Single(c => c.Id == id && c.LecturerId == userId);
+
+            var viewModel = new CourseViewModel
+            {
+                Place = course.Place,
+                Categories = _dbContext.categories.ToList(),
+                Date = course.DateTime.Date.ToString("dd/M/yyyy"),
+                Time = course.DateTime.ToString("HH:mm")
+                
+            };
+
             return View(viewModel);
         }
     }

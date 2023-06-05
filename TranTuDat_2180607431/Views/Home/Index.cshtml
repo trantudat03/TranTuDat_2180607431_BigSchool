@@ -32,7 +32,17 @@
                             @course.Lecturer.Name
                             @if (Model.ShowAction)
                             {
-                                <button class="btn btn-default btn-sm js-toggle-follow" data-user-id="@course.LecturerId">Follow</button>
+                                <button class="@(ViewBag.FollowingIds.Contains(course.LecturerId) ? "btn-info" : "btn-default") btn  btn-sm js-toggle-follow" data-user-id="@course.LecturerId">
+                                    @if (ViewBag.FollowingIds.Contains(course.LecturerId))
+                                    {
+                                        <script>document.write("Following");</script>
+                                    }
+                                    else
+                                    {
+                                        <script>document.write("Follow");</script>
+                                    }
+
+                                </button>
 
                             }
                         </span>
@@ -41,8 +51,8 @@
                         </span>
                         @if (Model.ShowAction)
                         {
-                            <button data-course-id="@course.Id" class="btn btn-default btn-sm js-toggle-attendance">Going</button>
-
+                            <button data-course-id="@course.Id" class="@(ViewBag.GoingIds.Contains(course.Id) ? "btn-info" : "btn-default") btn btn-sm js-toggle-attendance">Going</button>
+                            
                         }
                     </div>
                 </li>
@@ -56,43 +66,124 @@
 {
     <script>
         $(document).ready(function () {
+
             $(".js-toggle-attendance").click(function (e) {
                 var button = $(e.target);
-                $.post("/api/attendances", { courseId: button.attr("data-course-id") })
-                    .done(function () {
-                        button
-                            .removeClass("btn-default")
-                            .addClass("btn-info")
-                            .text("Going");
-                    })
-                    .fail(function () {
-                        alert("Someting failed!");
+                var courseId = button.attr("data-course-id");
+
+                // Kiểm tra nếu đã tham gia khóa học
+                if (button.hasClass("btn-info")) {
+                    // Thực hiện yêu cầu DELETE
+                    $.ajax({
+                        url: "/api/attendances/" + courseId,
+                        type: "DELETE",
+                        success: function () {
+                            button
+                                .removeClass("btn-info")
+                                .addClass("btn-default")
+                                .text("Going");
+                        },
+                        error: function (xhr, status, error) {
+                            if (xhr.status === 404) {
+                                alert("Endpoint not found!"); // Lỗi thứ nhất: Endpoint không tồn tại
+                            } else {
+                                
+                                alert("Something went wrong while deleting!");
+                            }
+                        }
                     });
-
-
+                } else {
+                    // Thực hiện yêu cầu POST
+                    $.post("/api/attendances", { courseId: button.attr("data-course-id") })
+                        .done(function () {
+                            button
+                                .removeClass("btn-default")
+                                .addClass("btn-info")
+                                .text("Going");
+                        })
+                        .fail(function () {
+                            alert("Someting failed!");
+                        });
+                }
             });
-            /*
-            $.get("/api/attendances", function (data) {
-                // Xử lý dữ liệu trả về ở đây
-                console.log(data); // In dữ liệu ra console
-            });
+            
+            
 
-            */
+        
+
             $(".js-toggle-follow").click(function (e) {
                 var button = $(e.target);
-                $.post("/api/followings", { followeeId: button.attr("data-user-id") })
-                    .done(function () {
-                        button.text("Following");
-                        
-                    })
-                    .fail(function () {
-                        alert("Someting failed!");
+
+                if (button.hasClass("btn-info")) {
+                    // Thực hiện yêu cầu DELETE
+                    
+                    $.ajax({
+                        url: "/api/followings/" + button.attr("data-user-id"),
+                        type: "DELETE",
+                        success: function () {
+
+                            var btns = $(".js-toggle-follow")
+                            
+
+                           
+                            for (var i = 0; i < btns.length; i++) {
+                                var btn = $(btns[i]);
+                                if (btn.attr("data-user-id") == button.attr("data-user-id")) {
+                                    // Thực hiện các thay đổi lớp (class) ở đây
+                                    btn.removeClass("btn-info").addClass("btn-default").text("Follow");
+                                }
+
+                                
+                            }
+
+                           
+                        },
+                        error: function (xhr, status, error) {
+                            if (xhr.status === 404) {
+                                alert("Endpoint not found!"); // Lỗi thứ nhất: Endpoint không tồn tại
+                            } else {
+                                alert("Something went wrong while deleting!");
+                            }
+                        }
                     });
 
+                    
+                } else {
+                   
+                    // Thực hiện yêu cầu POST
+                    
+                    $.post("/api/followings", { followeeId: button.attr("data-user-id") })
+                        .done(function () {
 
+                            var btns = $(".js-toggle-follow")
+                            for (var i = 0; i < btns.length; i++) {
+                                var btn = $(btns[i]);
+                                if (btn.attr("data-user-id") == button.attr("data-user-id")) {
+                                    btn
+                                        .removeClass("btn-default")
+                                        .addClass("btn-info")
+                                        .text("Following");
+                                }
+                                
+                                
+                            }       
+                        })
+                        .fail(function () {
+                            alert("Something failed!");
+                        });
+
+                        
+                }
             });
-                
+
+
+            
         });
+
+
+
+
+                                   
 
 
     </script>    

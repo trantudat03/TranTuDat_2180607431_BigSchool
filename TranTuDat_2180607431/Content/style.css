@@ -27,3 +27,8 @@
             top: 0;
             left: 7px;
         }
+
+        .course li .action {
+            display: inline-block;
+            margin-left: 5px;
+        }

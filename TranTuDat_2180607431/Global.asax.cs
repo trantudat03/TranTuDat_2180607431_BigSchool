@@ -13,6 +13,7 @@ namespace TranTuDat_2180607431
     {
         protected void Application_Start()
         {
+            
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

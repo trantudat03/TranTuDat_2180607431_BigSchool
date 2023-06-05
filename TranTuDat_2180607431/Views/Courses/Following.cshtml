@@ -1,0 +1,17 @@
+﻿@model IEnumerable<TranTuDat_2180607431.Models.Following>
+@{
+    ViewBag.Title = "Following";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Following</h2>
+
+<div>
+
+    @foreach(var following in Model)
+            {
+                @following.Followee.Name
+        <br>
+    }
+</div>
+

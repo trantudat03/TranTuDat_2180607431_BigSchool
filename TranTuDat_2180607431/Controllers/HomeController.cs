@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using TranTuDat_2180607431.Models;
 using System.Data.Entity;
 using TranTuDat_2180607431.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace TranTuDat_2180607431.Controllers
 {
@@ -20,6 +21,8 @@ namespace TranTuDat_2180607431.Controllers
         }
         public ActionResult Index()
         {
+
+            
             var upcommingCourses = _dbContext.Courses
                 .Include(c => c.Lecturer)
                 .Include(c => c.Category)
@@ -31,6 +34,26 @@ namespace TranTuDat_2180607431.Controllers
                 ShowAction = User.Identity.IsAuthenticated
             };
 
+            var userId = User.Identity.GetUserId();
+            List<string> followingIds = new List<string>();
+
+            foreach(var f in _dbContext.Followings)
+            {
+                if(f.FollowerId == userId)
+                followingIds.Add(f.FolloweeId);
+            }
+
+            List<int> GoingIds = new List<int>();
+
+            foreach (var f in _dbContext.Attendances)
+            {
+                if(userId == f.AttendeeId)
+                {
+                    GoingIds.Add(f.CourseId);
+                }
+            }
+            ViewBag.GoingIds = GoingIds;
+            ViewBag.FollowingIds = followingIds;
             return View(viewModel);    
         }
 

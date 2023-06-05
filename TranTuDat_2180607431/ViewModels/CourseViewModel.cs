@@ -26,5 +26,10 @@ namespace TranTuDat_2180607431.Models.ViewModels
         {
             return DateTime.Parse(string.Format("{0} {1}", Date, Time));
         }
+
+        public static implicit operator CourseViewModel(CourseViewModel v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

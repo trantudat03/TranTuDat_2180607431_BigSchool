@@ -298,8 +298,8 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
-    <Compile Include="ViewModels\CoursesViewModel.cs" />
     <Compile Include="Models\Following.cs" />
+    <Compile Include="ViewModels\CoursesViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="ViewModels\CourseViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -366,6 +366,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Courses\Create.cshtml" />
     <Content Include="Views\Courses\Attending.cshtml" />
+    <Content Include="Views\Courses\Following.cshtml" />
+    <Content Include="Views\Courses\Mine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,5 +10,7 @@ namespace TranTuDat_2180607431
         {
             ConfigureAuth(app);
         }
+
+
     }
 }
